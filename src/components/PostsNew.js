@@ -16,14 +16,16 @@ class PostsNew extends Component{
     // its parameter called field (that is passed by the redux-form) contains some event handlers
     // the field is a way to bind an input to the Field saying "hey, Field (from redux-form)
     // this is the input that you are responsible"
-    renderTitleField(field){
+    renderField(field){
         return (
-            <div>
+            <div className="form-group">
+                <label>{field.label}</label>
                 {/* tells Field that this is the input it is responsible for*/}
                 {/* the 3 dots indicate that every single property of the field.input must communicate
                 as props to the input
                 */}
                 <input
+                    className="form-control"
                     type="text"
                     {...field.input}
                 />
@@ -31,13 +33,25 @@ class PostsNew extends Component{
         );
     }
 
+
     render(){
         return (
             <form>
                 {/*The name property specifies what piece of state is being edited*/}
                 <Field
+                    label="title"
                     name="title"
-                    component={this.renderTitleField}
+                    component={this.renderField}
+                />
+                <Field
+                    label="tags"
+                    name="tags"
+                    component={this.renderField}
+                />
+                <Field
+                    label="Post content"
+                    name="content"
+                    component={this.renderField}
                 />
             </form>
         );
