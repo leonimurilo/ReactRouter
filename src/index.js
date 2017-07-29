@@ -8,18 +8,22 @@ import ReduxPromise from "redux-promise";
 // Route is a react component that we can render inside of any other react component
 // the purpose of Router is to provide a configuration that will define which component will be shown
 // depending on the url
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import reducers from "./reducers";
 import PostsIndex from "./components/PostsIndex";
+import PostsNew from "./components/PostsNew";
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
-
+// Switch only renders one match. So we must put the most specific routes on the top
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(reducers)}>
         <BrowserRouter>
             <div>
-                <Route path="/" component={PostsIndex}/>
+                <Switch>
+                    <Route path="/posts/new" component={PostsNew}/>
+                    <Route path="/" component={PostsIndex}/>
+                </Switch>
             </div>
         </BrowserRouter>
     </Provider>
