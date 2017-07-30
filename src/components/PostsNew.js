@@ -22,21 +22,34 @@ class PostsNew extends Component{
                 <label>{field.label}</label>
                 {/* tells Field that this is the input it is responsible for*/}
                 {/* the 3 dots indicate that every single property of the field.input must communicate
-                as props to the input
-                */}
+                 as props to the input
+                 */}
                 <input
                     className="form-control"
                     type="text"
                     {...field.input}
                 />
+                {/*the error data comes from when we validate the form, the Field recalls this function to re-render and
+                then we cant render also an error message*/}
+                {field.meta.error}
             </div>
         );
     }
 
+    // values contains all the input values of the form
+    onSubmit(values){
+        
+    }
 
     render(){
+        // function that is added in the component props by reduxForm()
+        const {handleSubmit} = this.props;
+
         return (
-            <form>
+            // handleSubmit will check if the form is valid and ready to be submit, it call the callback function
+            // that is in our case, the onSubmit()
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+
                 {/*The name property specifies what piece of state is being edited*/}
                 <Field
                     label="title"
@@ -53,15 +66,43 @@ class PostsNew extends Component{
                     name="content"
                     component={this.renderField}
                 />
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         );
     }
 
 }
 
+
+// function that will be called automatically at certain points during the form's lifecycle.
+// most notable whenever the user tries to submit the form
+// the argument values contains all different values the the user entered into the form
+function validate(values){
+    const errors = {};
+    // validate the inputs (values)
+    // the error.property must be the name of the Field
+    if(!values.title || values.title.length < 4){
+        errors.title = "Enter a title that is at least 4 characters!"
+    }
+
+    if(!values.categories){
+        errors.categories = "Enter some categories!"
+    }
+
+    if(!values.content || values.title.content < 10){
+        errors.content = "Enter some content with at least 10 characters!"
+    }
+
+    // if the returned object is empty, redux-form assumes that everything is ok with the form values
+    // else, it doesn't submit the form
+    return errors;
+}
+
+
 //reduxForm() give redux-form the ability to communicate directly from this component to the reducer
 // (reducer that came from the redux-form library and that was put into the app rootReducer)
 // receives a single argument in the first pair of parenthesis. It is an options object
 export default reduxForm({
-        form: "PostsNewForm" // unique name
+    validate,
+    form: "PostsNewForm" // unique name
 })(PostsNew);
