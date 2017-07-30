@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchPost} from "../actions";
+import {fetchPost, deletePost} from "../actions";
 import {Link} from "react-router-dom";
 
 class PostsShow extends Component{
@@ -27,6 +27,15 @@ class PostsShow extends Component{
 
     }
 
+    onDeleteClick(){
+        // we could get the id from this.props.post.id but it wouldn't be available since the beginning
+        // while the this.props.match.params.id, will since its on the url
+        const id = this.props.match.params.id;
+        this.props.deletePost(id, () => {
+            this.props.history.push("/");
+        });
+    }
+
     render(){
         const post = this.props.post;
 
@@ -37,6 +46,12 @@ class PostsShow extends Component{
         return (
             <div>
                 <Link to="/" className="btn btn-primary">Back to index</Link>
+                <button
+                    className="btn btn-danger pull-xs-right"
+                    onClick={this.onDeleteClick.bind(this)}
+                >
+                    Delete Post
+                </button>
                 <h3>{post.title}</h3>
                 <h6>Categories: {post.categories}</h6>
                 <p>{post.content}</p>
@@ -56,4 +71,4 @@ function mapStateToProps({posts}, ownProps){
 }
 
 
-export default connect(mapStateToProps, {fetchPost})(PostsShow);
+export default connect(mapStateToProps, {fetchPost, deletePost})(PostsShow);
