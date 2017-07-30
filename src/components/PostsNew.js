@@ -50,7 +50,7 @@ class PostsNew extends Component{
 
     // values contains all the input values of the form
     onSubmit(values){
-
+        this.props.createPost(values);
     }
 
     render(){
