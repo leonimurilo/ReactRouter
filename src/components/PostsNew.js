@@ -2,13 +2,15 @@
  * Created by Leoni on 7/29/2017.
  */
 import React, {Component} from "react";
-
+import {connect} from "react-redux";
+import {createPost} from "../actions/index";
 // Field is a component. We tell what type of input we want to receive from the user
 // the problem is that it doesn't know how to show up to the user. it only knows how to interact with redux-form
 // reduxForm is a function that is very similar to the connect function of the react-redux
 // This function is what allows our component to communicate with that additional reducer called form
 import {Field, reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
+
 
 // lets user to create (post) a new post
 class PostsNew extends Component{
@@ -116,4 +118,6 @@ function validate(values){
 export default reduxForm({
     validate,
     form: "PostsNewForm" // unique name
-})(PostsNew);
+})(
+    connect(null, {createPost})(PostsNew)
+);
