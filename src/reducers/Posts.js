@@ -1,7 +1,7 @@
 /**
  * Created by Leoni on 7/29/2017.
  */
-import {FETCH_POSTS, FETCH_POST} from "../actions/index";
+import {FETCH_POSTS, FETCH_POST, DELETE_POST} from "../actions/index";
 import _ from "lodash";
 
 export default function (state = {}, action) {
@@ -20,7 +20,11 @@ export default function (state = {}, action) {
             // this creates a new instance of state too.
             console.log("here");
             return {...state, [action.payload.data.id]: action.payload.data};
-
+        case DELETE_POST:
+            // omit will take the state object and delete the object that has the key equals to action.payload
+            // this way our state gets updated when the user successfully delete a post on the server
+            // even if the home page doesn't reload/re fetch the posts
+            return _.omit(state, action.payload);
         default:
             return state;
     }
