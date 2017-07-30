@@ -31,14 +31,17 @@ class PostsNew extends Component{
                 />
                 {/*the error data comes from when we validate the form, the Field recalls this function to re-render and
                 then we cant render also an error message*/}
-                {field.meta.error}
+                {/*Uses the state of the field called touch to check if the user already
+                focused the input and then unfocused it. Used to only show the error after the user
+                gets out of the field (as if the user had ended with the field)*/}
+                {field.meta.touched ? field.meta.error : ""}
             </div>
         );
     }
 
     // values contains all the input values of the form
     onSubmit(values){
-        
+
     }
 
     render(){
