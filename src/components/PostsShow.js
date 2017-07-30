@@ -9,12 +9,22 @@ import {Link} from "react-router-dom";
 class PostsShow extends Component{
 
     componentDidMount(){
+
+        // if the post is already available in the application state, we shouldn't (depends on the situation) fetch it again.
+        // but in this case, the post can be deleted and because of this,
+        // it should be good to fetch the post every time the user clicks a post name since the post could be unavailable
+        if(!this.props.post){
+        }
+
+
         // prop provided by react-router
         const id = this.props.match.params.id;
 
         // action that fetches the post from the server
         // then the posts reducer will update the application state including or replacing the fetched post
         this.props.fetchPost(id);
+
+
     }
 
     render(){
