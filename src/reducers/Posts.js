@@ -4,7 +4,7 @@
 import {FETCH_POSTS, FETCH_POST} from "../actions/index";
 import _ from "lodash";
 
-export default function (state = null, action) {
+export default function (state = {}, action) {
     switch(action.type){
         case FETCH_POSTS:
             return _.mapKeys(action.payload.data, "id");
@@ -18,6 +18,7 @@ export default function (state = null, action) {
             // ES6
             // add a new property to state. the key is the id (inside brackets) and the value after the ":"
             // this creates a new instance of state too.
+            console.log("here");
             return {...state, [action.payload.data.id]: action.payload.data};
 
         default:
