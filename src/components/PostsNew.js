@@ -17,8 +17,12 @@ class PostsNew extends Component{
     // the field is a way to bind an input to the Field saying "hey, Field (from redux-form)
     // this is the input that you are responsible"
     renderField(field){
+        //gets field.meta, field.meta.touched and field.meta.error
+        const {meta: {touched, error}} = field;
+        const className = `form-group ${touched && error ? "has-danger" : ""}`;
+
         return (
-            <div className="form-group">
+            <div className={className}>
                 <label>{field.label}</label>
                 {/* tells Field that this is the input it is responsible for*/}
                 {/* the 3 dots indicate that every single property of the field.input must communicate
@@ -29,12 +33,14 @@ class PostsNew extends Component{
                     type="text"
                     {...field.input}
                 />
-                {/*the error data comes from when we validate the form, the Field recalls this function to re-render and
-                then we cant render also an error message*/}
-                {/*Uses the state of the field called touch to check if the user already
-                focused the input and then unfocused it. Used to only show the error after the user
-                gets out of the field (as if the user had ended with the field)*/}
-                {field.meta.touched ? field.meta.error : ""}
+                <div className="text-help">
+                    {/*the error data comes from when we validate the form, the Field recalls this function to re-render and
+                     then we cant render also an error message*/}
+                    {/*Uses the state of the field called touch to check if the user already
+                     focused the input and then unfocused it. Used to only show the error after the user
+                     gets out of the field (as if the user had ended with the field)*/}
+                    {touched ? error : ""}
+                </div>
             </div>
         );
     }
@@ -92,7 +98,7 @@ function validate(values){
         errors.categories = "Enter some categories!"
     }
 
-    if(!values.content || values.title.content < 10){
+    if(!values.content || values.content.length < 10){
         errors.content = "Enter some content with at least 10 characters!"
     }
 
