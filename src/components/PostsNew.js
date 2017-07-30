@@ -50,7 +50,14 @@ class PostsNew extends Component{
 
     // values contains all the input values of the form
     onSubmit(values){
-        this.props.createPost(values);
+
+        // pass values (post to be created) and a callback
+        this.props.createPost(values, () => {
+
+            // using helpers that are available in this component because it is wrapped (rendered) by the Route component
+            // specified inside application index.js
+            this.props.history.push("/");
+        });
     }
 
     render(){
